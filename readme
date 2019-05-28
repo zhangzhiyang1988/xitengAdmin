@@ -1,0 +1,4 @@
+启动报错：The 'decorators' plugin requires a 'decoratorsBeforeExport' option, whose value must be a boolean.
+解决：将package.json中devDependencies里的 "stylelint": "^9.2.1","stylelint-config-prettier": "^3.0.4","stylelint-config-standard": "^18.0.0"删除重新npm install
+
+打包名命令：npm run build
