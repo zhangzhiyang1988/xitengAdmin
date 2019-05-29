@@ -83,8 +83,12 @@ const menuData = [
         path: 'refundOrderList',
       },
       {
-        name: '提现审核',
+        name: '提现11111111111审核',
         path: 'withdrawOrderTodoList',
+      },
+      {
+        name: '原路退款审核列表',
+        path: 'autoRefundOrderList',
       },
       {
         name: '提现报表',

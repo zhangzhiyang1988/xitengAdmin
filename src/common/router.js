@@ -101,7 +101,11 @@ export const getRouterData = app => {
         import('../routes/Finance/RefundOrderList')
       ),
     },
-
+    '/finance/autoRefundOrderList': {
+      component: dynamicWrapper(app, ['finance'], () =>
+        import('../routes/Finance/AutoRefundOrderList')
+      ),
+    },
     '/finance/withDrawOrderList': {
       component: dynamicWrapper(app, ['finance'], () =>
         import('../routes/Finance/WithDrawOrderList')

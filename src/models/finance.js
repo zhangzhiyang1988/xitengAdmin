@@ -3,6 +3,7 @@ import {
   getWidthDrawOrderList,
   confirmWithDrawOk,
   confirmWithDrawFail,
+  getAutoRefundOrderList,
 } from '../services/api';
 export default {
   namespace: 'finance',
@@ -29,6 +30,15 @@ export default {
         payload: response,
       });
     },
+    *fetchAutoRefundOrderList({ payload }, { call, put }) {
+      const response = yield call(getAutoRefundOrderList, payload);
+      console.log('原路退回----' + JSON.stringify(response));
+      yield put({
+        type: 'save',
+        payload: response,
+      });
+    },
+
     *fetchWithdrawOrderTodoList({ payload }, { call, put }) {
       const msg = {
         ...payload,

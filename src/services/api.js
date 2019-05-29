@@ -97,6 +97,14 @@ export async function getWidthDrawOrderList(params) {
     },
   });
 }
+export async function getAutoRefundOrderList(params) {
+  return request(baseUrl + '/onediscountclient/autoRefundOrderList', {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}
 
 export async function confirmWithDrawOk(params) {
   return request(baseUrl + '/onediscountclient/confirmWithDrawOk', {
