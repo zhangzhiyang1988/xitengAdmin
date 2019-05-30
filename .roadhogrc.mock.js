@@ -8,10 +8,14 @@ import { getNotices } from './mock/notices';
 import { format, delay } from 'roadhog-api-doc';
 import { getOrderListData } from './mock/orderData';
 import { getGameListData } from './mock/gameData';
-import {getProductListData} from "./mock/productData";
+import { getProductListData } from './mock/productData';
 import { getRefundOrderListData } from './mock/refundOrderData';
-import { getWidthDrawOrderListData,confirmWithDrawOk, confirmWithDrawFail } from './mock/withDrawOrderData';
-import {getAccountRecordListData, getUserListData} from './mock/clientData';
+import {
+  getWidthDrawOrderListData,
+  confirmWithDrawOk,
+  confirmWithDrawFail,
+} from './mock/withDrawOrderData';
+import { getAccountRecordListData, getUserListData } from './mock/clientData';
 
 // 是否禁用代理
 // const noProxy = process.env.NO_PROXY === 'true';
@@ -62,8 +66,9 @@ const proxy = {
   'POST /api/onediscountfinance/refundOrderList': getRefundOrderListData,
   'POST /api/onediscountgame/gameList': getGameListData,
   'POST /api/onediscountclient/userList': getUserListData,
-  'POST /api/onediscountclient/accountRecordList':getAccountRecordListData,
-  'POST /api/onediscountclient/withdrawOrderList':getWidthDrawOrderListData,
+  'POST /api/onediscountclient/accountRecordList': getAccountRecordListData,
+  'POST /api/onediscountclient/withdrawOrderList': getWidthDrawOrderListData,
+  // 'POST /api/onediscountclient/autoAutoRefundOrderList':getAutoRefundOrderListData,
   // 'POST /api/onediscountclient/confirmWithDrawOk':(id)=>{
   //   confirmWithDrawOk(id);
   // },

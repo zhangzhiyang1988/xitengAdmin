@@ -17,7 +17,7 @@ export default {
     template: './src/index.ejs',
   },
   disableDynamicImport: true,
-  publicPath: '/h5', //h5
+  publicPath: '/', //h5
   hash: true,
   proxy: {
     '/xitenggamejar': {

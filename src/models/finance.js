@@ -1,10 +1,11 @@
 import {
+  confirmWithDrawFail,
+  confirmWithDrawOk,
+  getAutoRefundOrderList,
   getRefundOrderList,
   getWidthDrawOrderList,
-  confirmWithDrawOk,
-  confirmWithDrawFail,
-  getAutoRefundOrderList,
 } from '../services/api';
+
 export default {
   namespace: 'finance',
   state: {
@@ -33,9 +34,10 @@ export default {
     *fetchAutoRefundOrderList({ payload }, { call, put }) {
       const response = yield call(getAutoRefundOrderList, payload);
       console.log('原路退回----' + JSON.stringify(response));
+      let autoRefundOrder = new AutoRefundOrder(response);
       yield put({
         type: 'save',
-        payload: response,
+        payload: autoRefundOrder.changeFinanceReducersListLanguage().getAutoRefundResponse(),
       });
     },
 
@@ -97,3 +99,62 @@ export default {
     },
   },
 };
+
+
+
+//  todo fetchAutoRefundOrderList 的返回值中list需要展开重组 如果想提到别的文件中就请移动
+class AutoRefundOrder{
+  constructor(autoRefundResponse){
+    this.autoRefundResponse = Object.assign({},autoRefundResponse);
+    let dataIndex = {
+      source:["withDraw","overTime"],
+      autoRefundFinish:[false,true]
+    };
+    let valueRule = {
+      source:["手动提现","到期自动退款"],
+      autoRefundFinish:["未完成","完成"]
+    };
+    this.languageBox = new LanguageBox(valueRule,dataIndex)
+
+  }
+
+  /**
+   * 将自动提现中的部分字段的英文转换成对应中文 list
+   * @returns {AutoRefundOrder}
+   */
+  changeFinanceReducersListLanguage(){
+    let list = this.autoRefundResponse.list;
+    let autoRefundResponseList = [];
+    for(let i = 0;i < list.length;i++){
+      let translateItem = this.languageBox.translate(list[i]);
+      autoRefundResponseList.push(translateItem);
+    }
+    this.autoRefundResponse.list = autoRefundResponseList;
+    return this;
+  }
+  getAutoRefundResponse(){
+    console.log("========",this.autoRefundResponse);
+    return this.autoRefundResponse;
+  }
+
+}
+
+
+class LanguageBox{
+  constructor(valueRule,dataIndex){
+    this.valueRule = valueRule;
+    this.dataIndex = dataIndex;
+  }
+  translate(transItem){
+    for(let prop in this.dataIndex){
+      let index = this.dataIndex[prop].findIndex(function(dataItem){
+        return dataItem === transItem[prop];
+      });
+      transItem[prop] = this.valueRule[prop][index];
+    }
+
+    return transItem;
+
+  }
+
+}

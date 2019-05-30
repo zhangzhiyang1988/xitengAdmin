@@ -100,7 +100,7 @@ export default class ListTable extends React.Component {
   }
 
   showRecordInfo() {
-    if (this.state.selectRecord !== null) {
+    if (this.state.selectRecord !== null && this.props.showItem) {
       return this.props.showItem(this.state.selectRecord);
     }
   }
