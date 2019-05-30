@@ -6,7 +6,7 @@ const FormItem = Form.Item;
 
 class ConditionItem extends React.Component {
   handleSelectChange(value) {
-    console.log(value);
+    console.log('v====', value);
     this.props.form.setFieldsValue({
       note: value,
     });
@@ -14,11 +14,21 @@ class ConditionItem extends React.Component {
 
   showOptions(options) {
     return options.map((value, index) => {
-      return (
-        <Option key={index} value={`${value}`}>
-          {value}
-        </Option>
-      );
+      if (typeof value === 'string') {
+        //  兼容原来版本
+        return (
+          <Option key={index} value={`${value}`}>
+            {value}
+          </Option>
+        );
+      } else {
+        //  请尽量写成title和key的形式
+        return (
+          <Option key={index} value={value.key}>
+            {value.title}
+          </Option>
+        );
+      }
     });
   }
 

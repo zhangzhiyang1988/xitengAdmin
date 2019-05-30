@@ -29,11 +29,15 @@ const dataIndex = [
 const conditionConfig = [
   { title: '退款单创建时间', span: 8, keyIndex: 'createTimePeriod', type: 'piker', options: null },
   {
-    title: '是否退款成功',
+    title: '退款状态',
     span: 5,
-    keyIndex: 'autoRefundFinish ',
+    keyIndex: 'autoRefundFinish',
     type: 'selector',
-    options: ["", false, true],
+    options: [
+      { title: '全部', key: '' },
+      { title: '未完成', key: false },
+      { title: '完成', key: true },
+    ],
   },
 ];
 
@@ -42,7 +46,6 @@ const fetchUrl = 'finance/fetchAutoRefundOrderList';
   store: finance,
   loading: loading.effects[fetchUrl],
 }))
-
 export default class AutoRefundOrderList extends React.Component {
   // constructor(props) {
   //   super(props);
@@ -51,17 +54,17 @@ export default class AutoRefundOrderList extends React.Component {
   render() {
     const listConfig = { titleArray: title, dataIndexArray: dataIndex };
     return (
-        <div>
-          <ListTable
-            {...this.props}
-            fetchUrl={fetchUrl}
-            actionComponent={null}
-            listConfig={listConfig}
-            conditionConfig={conditionConfig}
-            columnWidth={150}
-            showItem = {null}
-          />
-        </div>
-      )
+      <div>
+        <ListTable
+          {...this.props}
+          fetchUrl={fetchUrl}
+          actionComponent={null}
+          listConfig={listConfig}
+          conditionConfig={conditionConfig}
+          columnWidth={150}
+          showItem={null}
+        />
+      </div>
+    );
   }
 }
