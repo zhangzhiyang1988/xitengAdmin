@@ -114,6 +114,15 @@ export async function confirmWithDrawOk(params) {
     },
   });
 }
+export async function checkAutoRefundOrder(params) {
+  return request(baseUrl + '/onediscountclient/checkAutoRefundOrder', {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}
+
 
 export async function confirmWithDrawFail(params) {
   return request(baseUrl + '/onediscountclient/confirmWithDrawFail', {

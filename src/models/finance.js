@@ -37,7 +37,7 @@ export default {
       let autoRefundOrder = new AutoRefundOrder(response);
       yield put({
         type: 'save',
-        payload: autoRefundOrder.changeFinanceReducersListLanguage().getAutoRefundResponse(),
+        payload: autoRefundOrder.changeFinanceReducersListLanguage().convertModelListToModel().changeAutoRefundOrderItemModelLanguage().getAutoRefundResponse(),
       });
     },
 
@@ -87,6 +87,20 @@ export default {
         payload: response,
       });
     },
+    *checkAutoRefundOrder({ payload }, { call, put, select }){
+      const pageNo = yield select(state => state.finance.pageNo);
+      yield call(confirmWithDrawOk, payload);
+
+      const response = yield call(getWidthDrawOrderList, {
+        pageNo: pageNo,
+        pageSize: 16,
+      });
+      console.log('自动退款审核后----' + JSON.stringify(response));
+      yield put({
+        type: 'save',
+        payload: response,
+      });
+    },
   },
   reducers: {
     save(state, { payload }) {
@@ -106,16 +120,6 @@ export default {
 class AutoRefundOrder{
   constructor(autoRefundResponse){
     this.autoRefundResponse = Object.assign({},autoRefundResponse);
-    let dataIndex = {
-      source:["withDraw","overTime"],
-      autoRefundFinish:[false,true]
-    };
-    let valueRule = {
-      source:["手动提现","到期自动退款"],
-      autoRefundFinish:["未完成","完成"]
-    };
-    this.languageBox = new LanguageBox(valueRule,dataIndex)
-
   }
 
   /**
@@ -125,15 +129,52 @@ class AutoRefundOrder{
   changeFinanceReducersListLanguage(){
     let list = this.autoRefundResponse.list;
     let autoRefundResponseList = [];
+    let dataIndex = {
+      source:["withDraw","order"],
+      autoRefundFinish:[false,true]
+    };
+    let valueRule = {
+      source:["手动提现","订单"],
+      autoRefundFinish:["未处理","处理"]
+    };
+    let languageBox = new LanguageBox(valueRule,dataIndex);
     for(let i = 0;i < list.length;i++){
-      let translateItem = this.languageBox.translate(list[i]);
+      let translateItem = languageBox.translate(list[i]);
       autoRefundResponseList.push(translateItem);
     }
     this.autoRefundResponse.list = autoRefundResponseList;
     return this;
   }
+  convertModelListToModel(){
+    for(let i = 0;i < this.autoRefundResponse.list.length;i++ ){
+      this.autoRefundResponse.list[i].autoRefundOrderItemModel = {
+        list: this.autoRefundResponse.list[i].autoRefundOrderItemModelList,
+        totalCount: this.autoRefundResponse.list[i].autoRefundOrderItemModelList.length,
+        page: 1
+      };
+    }
+    return this;
+  }
+  changeAutoRefundOrderItemModelLanguage(){
+    let dataIndex = {
+      payChannel:["WeixinMiniProgramPay","order"],
+      refundSuccess:[false,true,null]
+    };
+    let valueRule = {
+      payChannel:["小程序付款","订单"],
+      refundSuccess:["失败","成功","未处理"]
+    };
+    let languageBox = new LanguageBox(valueRule,dataIndex);
+    for(let i = 0 ;i < this.autoRefundResponse.list.length;i++){
+      let list = this.autoRefundResponse.list[i].autoRefundOrderItemModel.list;
+      for(let j = 0;j < list.length;j++){
+        languageBox.translate(list[j])
+      }
+    }
+    return this;
+  }
+
   getAutoRefundResponse(){
-    console.log("========",this.autoRefundResponse);
     return this.autoRefundResponse;
   }
 

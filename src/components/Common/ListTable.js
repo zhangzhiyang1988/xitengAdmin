@@ -45,6 +45,7 @@ export default class ListTable extends React.Component {
     //不能用state
     this.selectStatus = '全部';
     this.conditions = { status: '全部' };
+    console.log('==============',this.props.listConfig);
     const { titleArray, dataIndexArray } = this.props.listConfig;
 
     this.columnWidth = this.props.columnWidth;
