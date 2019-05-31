@@ -130,11 +130,13 @@ class AutoRefundOrder{
     let autoRefundResponseList = [];
     let dataIndex = {
       source:["withDraw","order"],
-      autoRefundFinish:[false,true]
+      autoRefundFinish:[false,true],
+      autoRefundOrderStatus:["wait_refund","wait_refund","reject","refund_finish"]
     };
     let valueRule = {
       source:["手动提现","订单"],
-      autoRefundFinish:["未处理","处理"]
+      autoRefundFinish:["未处理","处理"],
+      autoRefundOrderStatus:["待审核","待退款","拒绝","退款完成"]
     };
     let languageBox = new LanguageBox(valueRule,dataIndex);
     for(let i = 0;i < list.length;i++){

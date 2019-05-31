@@ -7,7 +7,7 @@ import ListTable from '../../components/Common/ListTable';
 import { Button, Popconfirm } from 'antd';
 
 const title = [
-  '订单ID',
+  '订单状态',
   '退款总金额',
   '用户名',
   '电话号码',
@@ -18,7 +18,7 @@ const title = [
 ];
 
 const dataIndex = [
-  'autoRefundOrderId',
+  'autoRefundOrderStatus',
   'autoRefundMount',
   'userName',
   'phoneNum',
