@@ -1,6 +1,7 @@
 import {
   confirmWithDrawFail,
   confirmWithDrawOk,
+  checkAutoRefundOrder,
   getAutoRefundOrderList,
   getRefundOrderList,
   getWidthDrawOrderList,
@@ -89,16 +90,14 @@ export default {
     },
     *checkAutoRefundOrder({ payload }, { call, put, select }){
       const pageNo = yield select(state => state.finance.pageNo);
-      yield call(confirmWithDrawOk, payload);
+      yield call(checkAutoRefundOrder, payload);
 
-      const response = yield call(getWidthDrawOrderList, {
-        pageNo: pageNo,
-        pageSize: 16,
-      });
-      console.log('自动退款审核后----' + JSON.stringify(response));
+      const response = yield call(getAutoRefundOrderList, payload);
+      console.log('原路退回----' + JSON.stringify(response));
+      let autoRefundOrder = new AutoRefundOrder(response);
       yield put({
         type: 'save',
-        payload: response,
+        payload: autoRefundOrder.changeFinanceReducersListLanguage().convertModelListToModel().changeAutoRefundOrderItemModelLanguage().getAutoRefundResponse(),
       });
     },
   },
