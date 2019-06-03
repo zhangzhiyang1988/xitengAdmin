@@ -155,6 +155,7 @@ class AutoRefundOrder{
       };
       for(let j = 0;j < this.autoRefundResponse.list[i].autoRefundOrderItemModel.list.length;j++){
         this.autoRefundResponse.list[i].autoRefundOrderItemModel.list[j].refundMount = this.autoRefundResponse.list[i].autoRefundOrderItemModel.list[j].refundMount/100;
+        this.autoRefundResponse.list[i].autoRefundOrderItemModel.list[j].totalPrice = this.autoRefundResponse.list[i].autoRefundOrderItemModel.list[j].totalPrice/100;
       }
       this.autoRefundResponse.list[i].autoRefundMount = this.autoRefundResponse.list[i].autoRefundMount/100;
     }
