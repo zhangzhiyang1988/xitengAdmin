@@ -106,7 +106,7 @@ export default class AutoRefundOrderList extends React.Component {
       render: (text, record) => {
         {
           console.log("recordrecordrecord",record);
-          if(record.autoRefundFinish !== "未处理"){
+          if(record.autoRefundOrderStatus !== "待审核"){
             return null;
           }
           return (

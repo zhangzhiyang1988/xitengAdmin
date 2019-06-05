@@ -91,8 +91,11 @@ export default {
     *checkAutoRefundOrder({ payload }, { call, put, select }){
       const pageNo = yield select(state => state.finance.pageNo);
       yield call(checkAutoRefundOrder, payload);
-
-      const response = yield call(getAutoRefundOrderList, payload);
+      // console.log({payload})
+      const response = yield call(getAutoRefundOrderList, {
+        pageNo: pageNo,
+        pageSize: 16,
+      });
       console.log('原路退回----' + JSON.stringify(response));
       let autoRefundOrder = new AutoRefundOrder(response);
       yield put({
@@ -131,7 +134,7 @@ class AutoRefundOrder{
     let dataIndex = {
       source:["withDraw","order"],
       autoRefundFinish:[false,true],
-      autoRefundOrderStatus:["wait_refund","wait_refund","reject","refund_finish"]
+      autoRefundOrderStatus:["wait_check","wait_refund","reject","refund_finish"]
     };
     let valueRule = {
       source:["手动提现","订单"],
